@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { HttpErrorFilter } from './filters/http-error.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalFilters(new HttpErrorFilter());
   // 전역 유효성 검사 파이프 설정
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true, // DTO에 정의되지 않은 속성을 제거
